@@ -1,12 +1,19 @@
 # economy-bot
 
-A DiscordJS economy bot
+A DiscordJS economy bot.
 
-To fill out `config.json` see `config-example`
+# Requirements
+
+You must have NodeJS and PostgreSQL installed
+
+# Installation
+
+To fill out `config.json` and `.env` see `config-example`, `env-example`
 
 Then run
 
 ```bash
 pnpm install
+pnpm dbpush
 pnpm start
 ```
