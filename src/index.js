@@ -24,25 +24,13 @@ client.once('ready', () => {
     const commands = Array.from(globals.commands.values()).map((c) => c.data); // c.data is the command object
     await guild.commands.set(commands);
   });
-});
 
-client.on('interactionCreate', async (interaction) => {
-  if (interaction.isChatInputCommand()) {
-    const { commandName } = interaction;
+  // Load Events
+  fs.readdirSync(path.join(__dirname, 'events')).forEach((filePath) => {
+    const file = require(path.join(__dirname, 'events', filePath));
 
-    const command = globals.commands.get(commandName);
-
-    if (!command) {
-      await interaction.reply({
-        content: 'That command does not exists.',
-        ephemeral: true,
-      });
-
-      return;
-    }
-
-    await command.run(client, interaction);
-  }
+    client.on(filePath.split('.')[0], file.handle.bind(client));
+  });
 });
 
 client.login(token);
