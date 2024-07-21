@@ -1,5 +1,6 @@
 const globals = require('../globals');
 const prisma = require('../utils/prisma');
+const queries = require('../utils/queries');
 
 exports.handle = async function (interaction) {
   if (interaction.isChatInputCommand()) {
@@ -8,6 +9,8 @@ exports.handle = async function (interaction) {
     const command = globals.commands.get(commandName);
 
     console.assert(command, `${commandName} command not found`);
+
+    await queries.createUserAccount(interaction.user.id);
 
     try {
       await command.run(this, interaction);
