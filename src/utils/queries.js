@@ -28,7 +28,7 @@ class Queries {
   async getUserCurrency(id) {
     const prefix = `getUserCurrency-${id}`;
 
-    if (queryCache.has(prefix)) return queryCache.get(queryCache);
+    if (queryCache.has(prefix)) return queryCache.get(prefix);
 
     const data = await prisma.user.findUnique({
       where: {
