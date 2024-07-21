@@ -6,6 +6,9 @@ const queryCache = new NodeCache({ stdTTL: 600, checkperiod: 60 });
 class Queries {
   constructor() {}
 
+  /**
+   * Creates a new user account if it does not exists
+   */
   async createUserAccount(id) {
     const prefix = `createUserAccount-${id}`;
 
@@ -25,6 +28,9 @@ class Queries {
     queryCache.set(prefix, data);
   }
 
+  /**
+   * Returns only currency values of the user.
+   */
   async getUserCurrency(id) {
     const prefix = `getUserCurrency-${id}`;
 
