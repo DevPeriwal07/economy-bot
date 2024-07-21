@@ -1,4 +1,5 @@
 const globals = require('../globals');
+const prisma = require('../utils/prisma');
 
 exports.handle = async function (interaction) {
   if (interaction.isChatInputCommand()) {
@@ -6,15 +7,25 @@ exports.handle = async function (interaction) {
 
     const command = globals.commands.get(commandName);
 
-    if (!command) {
-      await interaction.reply({
-        content: 'That command does not exists.',
-        ephemeral: true,
-      });
+    console.assert(command, `${commandName} command not found`);
 
-      return;
+    try {
+      await command.run(this, interaction);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      await handleAfterCommand(interaction);
     }
-
-    await command.run(this, interaction);
   }
 };
+
+async function handleAfterCommand(interaction) {
+  const { user } = interaction;
+
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: user.id },
+      data: { commandsRan: { increment: 1 } },
+    }),
+  ]);
+}
