@@ -1,5 +1,5 @@
-const prisma = require('../utils/prisma');
-const { colors } = require('../globals');
+const prisma = require('../../utils/prisma');
+const { colors } = require('../../globals');
 const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = {
