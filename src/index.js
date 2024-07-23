@@ -13,10 +13,11 @@ client.once('ready', () => {
 
   // Set commands
   const commandsPath = path.join(__dirname, 'commands');
-  fs.readdirSync(commandsPath).forEach((filePath) => {
-    const file = require(path.join(commandsPath, filePath));
-
-    globals.commands.set(file.data.name, file);
+  fs.readdirSync(commandsPath).forEach((folderPath) => {
+    fs.readdirSync(path.join(commandsPath, folderPath)).forEach((filePath) => {
+      const file = require(path.join(commandsPath, folderPath, filePath));
+      globals.commands.set(file.data.name, file);
+    });
   });
 
   // Register Commands
