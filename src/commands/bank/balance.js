@@ -19,7 +19,7 @@ module.exports = {
   async run(client, interaction) {
     const targetUser = interaction.options.getUser('user') || interaction.user;
 
-    const userData = await prisma.user.findUnique({
+    let userData = await prisma.user.findUnique({
       where: {
         id: targetUser.id,
       },
@@ -31,11 +31,11 @@ module.exports = {
     });
 
     if (!userData) {
-      await interaction.reply({
-        content: 'That user does not exists',
-        ephemeral: true,
+      userData = await prisma.user.create({
+        data: {
+          id: targetUser.id,
+        },
       });
-      return;
     }
 
     const author = {
