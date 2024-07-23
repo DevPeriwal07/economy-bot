@@ -1,4 +1,4 @@
-const queries = require('../utils/queries');
+const prisma = require('../utils/prisma');
 const { stripIndents } = require('common-tags');
 const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
 
@@ -18,7 +18,15 @@ module.exports = {
   async run(client, interaction) {
     const targetUser = interaction.options.getUser('user') || interaction.user;
 
-    const data = await queries.getUserCurrency(targetUser.id);
+    const data = await prisma.user.findUnique({
+      where: {
+        id: targetUser.id,
+      },
+      select: {
+        coins: true,
+        bank: true,
+      },
+    });
 
     if (!data) {
       await interaction.reply({
