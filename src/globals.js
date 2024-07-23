@@ -4,6 +4,7 @@ const { Collection } = require('discord.js');
 const commands = new Collection();
 
 const colors = {
+  base: '#fb923c',
   success: '#a3e635',
 };
 

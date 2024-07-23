@@ -1,3 +1,4 @@
+const { colors } = require('../../globals');
 const prisma = require('../../utils/prisma');
 const { stripIndents } = require('common-tags');
 const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
@@ -18,17 +19,18 @@ module.exports = {
   async run(client, interaction) {
     const targetUser = interaction.options.getUser('user') || interaction.user;
 
-    const data = await prisma.user.findUnique({
+    const userData = await prisma.user.findUnique({
       where: {
         id: targetUser.id,
       },
       select: {
         coins: true,
         bank: true,
+        bankSpace: true,
       },
     });
 
-    if (!data) {
+    if (!userData) {
       await interaction.reply({
         content: 'That user does not exists',
         ephemeral: true,
@@ -36,14 +38,20 @@ module.exports = {
       return;
     }
 
+    const author = {
+      name: `${targetUser.displayName}'s balance`,
+      iconURL: targetUser.displayAvatarURL(),
+    };
+
     const embed = new EmbedBuilder()
-      .setTitle(`${targetUser.displayName}'s Balance`)
+      .setAuthor(author)
       .setDescription(
         stripIndents`
-          **Wallet:** ${data.coins.toLocaleString()}
-          **Bank:** ${data.bank.toLocaleString()}
+          **Wallet:** ${userData.coins.toLocaleString()}
+          **Bank:** ${userData.bank.toLocaleString()} / ${userData.bankSpace.toLocaleString()}
         `,
       )
+      .setColor(colors.base)
       .setTimestamp();
 
     await interaction.reply({ embeds: [embed] });
