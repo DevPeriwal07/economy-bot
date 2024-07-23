@@ -11,6 +11,7 @@ model User {
   id          String @id
   coins       BigInt @default(100000)
   bank        BigInt @default(0)
+  bankSpace   BigInt @default(100000)
   commandsRan Int    @default(1)
 
   @@index(id)
