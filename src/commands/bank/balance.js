@@ -35,6 +35,11 @@ module.exports = {
         data: {
           id: targetUser.id,
         },
+        select: {
+          coins: true,
+          bank: true,
+          bankSpace: true,
+        },
       });
     }
 
