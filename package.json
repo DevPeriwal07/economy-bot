@@ -1,27 +1,31 @@
 {
   "name": "economy-bot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A DiscordJS economy bot",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js",
+    "start": "ts-node ./src/index.ts",
+    "dev": "ts-node-dev ./src/index.ts",
     "dbpush": "pnpm prisma db push"
   },
   "keywords": [
     "discord",
-    "economy-bot"
+    "economy-bot",
+    "typescript"
   ],
   "author": "DevPeriwal",
   "license": "MIT",
-  "devDependencies": {
-    "nodemon": "^3.1.4",
-    "prisma": "^5.17.0"
-  },
   "dependencies": {
     "@prisma/client": "5.17.0",
     "common-tags": "^1.8.2",
     "discord.js": "^14.15.3",
     "node-cache": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
   }
 }
